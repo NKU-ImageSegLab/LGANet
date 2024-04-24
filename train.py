@@ -93,7 +93,7 @@ for ep in range(end_epoch):
     metrics = get_binary_metrics()
     for itter, (img, msk, _) in tqdm(
             iterable=enumerate(train_loader),
-            desc=f"{config['dataset_name']} Training [{ep + 1}/{end_epoch}] Current Image",
+            desc=f"{config['dataset_name']} Training [{ep + 1}/{end_epoch}]",
             total=len(train_loader)
     ):
         img = img.to(device, dtype=torch.float)
@@ -138,13 +138,17 @@ for ep in range(end_epoch):
         val_loss = 0
         Net.eval()
         vl_metrics = get_binary_metrics()
-        for itter, (img, msk, _) in enumerate(val_loader):
+        for itter, (img, msk, _) in tqdm(
+            iterable=enumerate(val_loader),
+            desc=f"{config['dataset_name']} Validation [{ep + 1}/{end_epoch}]",
+            total=len(val_loader)
+        ):
             img = img.to(device, dtype=torch.float)
             mask_type = torch.float32
             msk = msk.to(device=device, dtype=mask_type)
             # msk_pred,side_out = Net(img)
             msk_pred, _, _, _ = Net(img)
-            vl_metrics.update(msk_pred, msk)
+            vl_metrics.update(msk_pred, msk.int())
             # msk_pred = torch.sigmoid(msk_pred)
             loss = structure_loss(msk_pred, msk)
             val_loss += loss.item()
@@ -157,12 +161,12 @@ for ep in range(end_epoch):
             best_val_loss = copy.deepcopy(mean_val_loss)
             state = copy.deepcopy({'model_weights': Net.state_dict(), 'val_loss': best_val_loss})
 
-            save_best_loss_model_path = config['weight_path'] + 'best_loss_weight_path/'
+            save_best_loss_model_path = os.path.join(config['weight_path'], 'best_loss_weight_path')
             if not os.path.exists(save_best_loss_model_path):
                 os.makedirs(save_best_loss_model_path)
 
-            torch.save(state, save_best_loss_model_path + str(ep + 1) + '.model')
-            torch.save(state, save_best_loss_model_path + config['saved_model'])
+            torch.save(state, os.path.join(save_best_loss_model_path, str(ep + 1) + '.model'))
+            torch.save(state, os.path.join(save_best_loss_model_path, config['saved_model']))
 
     scheduler.step(mean_val_loss)
 
