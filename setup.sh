@@ -1,0 +1,10 @@
+pip install torch
+pip install torchvision
+pip install einops
+pip install numpy
+pip install scikit-learn
+pip install tqdm
+pip install pyyaml
+pip install torchtoolbox
+pip install torchmetrics
+pip install timm

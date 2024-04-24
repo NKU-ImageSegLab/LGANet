@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import os
 
 # @Author   : Guo Qingqing
 # @Date     : 2022/10/7 下午1:25
@@ -20,7 +21,8 @@ class LGANet(nn.Module):
         super(LGANet,self).__init__()
 
         self.backbone = pvt_v2_b2()  # [64, 128, 320, 512]
-        path = '../pretrained/pvt_v2_b2.pth'
+        path = './pretrained/pvt_v2_b2.pth'
+        # 打印path所指代的绝对路径
         save_model = torch.load(path)
         model_dict = self.backbone.state_dict()
         state_dict = {k: v for k, v in save_model.items() if k in model_dict.keys()}
