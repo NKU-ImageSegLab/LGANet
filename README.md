@@ -7,34 +7,32 @@ This paper proposes a novel framework, LGANet, for skin lesion segmentation. Par
 ## Architecture
 ![Network](https://img-blog.csdnimg.cn/bf41c11f82ec4cd382d3dd916829de98.png#pic_center)Fig.2. The structure of the proposed LGANet. LFM and GAM are integrated into the Transformer encoder based framework to learn local detailed information around boundary and augment global context respectively, where dense concatenations are used for final pixel-level prediction.
 
+## System Requirement
+We need to run the code on linux.
 
-
-## Requirements
-
- - Python 3.6
- - pytorch 1.6.0
- - torchvision 0.7.0
- - einops 0.3.0
- - numpy 1.16.6
- - scipy 1.2.1
- - tqdm 4.61.0
- - yaml 0.2.5
+## Requirements Installation
+```bash
+sh setup.sh
+```
 
 ## Datasets
 
  - The ISIC 2018  and ISIC 2016 dataset can be acquired from [the official site](https://challenge.isic-archive.com/data/).
- - Run Prepare_data.py for data preperation.
+ - ~~Run Prepare_data.py for data preperation.~~No needed to run Prepare_data.py. You can just select a config file by using the `--config` option in the train.py file and if you provide `--dataset_path` option, the code prepare the data for training.
 
 
 ## Pretrained model
 You could download the pretrained model from [here](https://drive.google.com/drive/folders/1Eu8v9vMRvt-dyCH0XSV2i77lAd62nPXV).  Please put it in the " **./pretrained**" folder for initialization.
 ## Training
-python  train.py
+```shell
+python train.py --config configs/config_skin_isic2016.yml --dataset_path /path/to/your/dataset
+``` 
 ## Testing
-python test.py
+```shell
+python test.py --config configs/config_skin_isic2016.yml --dataset_path /path/to/your/dataset
+``` 
 ## Evaluation
-python evaluate.py
-
+Note: evaluate is not supported now. We will update it soon.
 ## References
 Some of the codes in this repo are borrowed from:
  - [TMUNet](https://github.com/rezazad68/TMUnet)     
