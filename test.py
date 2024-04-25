@@ -98,7 +98,13 @@ with torch.no_grad():
             # imageio.imwrite(os.path.join(save_result_pred_path, name), pred)
         # 概率图
     vl_metrics_result = MetricsResult(vl_metrics.compute())
-    vl_metrics_result.to_result_csv(os.path.join(save_result_path, 'result.csv'), model_name)
+    params, flops = vl_metrics_result.cal_params_flops(Net, 256)
+    vl_metrics_result.to_result_csv(
+        os.path.join(save_result_path, 'result.csv'),
+        model_name,
+        flops=flops,
+        params=params
+    )
 
 if __name__ == '__main__':
     pass

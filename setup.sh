@@ -11,3 +11,4 @@ pip install timm
 pip install pandas
 pip install nibabel
 pip install imageio
+pip install thop
