@@ -29,6 +29,7 @@ normalize_stds:
 - 0.17118206
 - 0.17080363
 
+pretrain_model_path: './pretrained/pvt_v2_b2.pth' # We need to download the pretrained model
 best_model_path: './weight/isic16/best.pth'
 save_result:     './result/isic2016/image' # path to save results
 dataset_path: './Skin Dataset/ISIC-2016'

@@ -17,17 +17,17 @@ from models.pvtv2 import pvt_v2_b2
 
 
 class LGANet(nn.Module):
-    def __init__(self,channel=32,n_classes = 1):
+    def __init__(self,channel=32,n_classes = 1, pretrain_model_path=None):
         super(LGANet,self).__init__()
 
         self.backbone = pvt_v2_b2()  # [64, 128, 320, 512]
-        path = './pretrained/pvt_v2_b2.pth'
-        # 打印path所指代的绝对路径
-        save_model = torch.load(path)
-        model_dict = self.backbone.state_dict()
-        state_dict = {k: v for k, v in save_model.items() if k in model_dict.keys()}
-        model_dict.update(state_dict)
-        self.backbone.load_state_dict(model_dict)
+        if pretrain_model_path is not None:
+            # 打印path所指代的绝对路径
+            save_model = torch.load(pretrain_model_path)
+            model_dict = self.backbone.state_dict()
+            state_dict = {k: v for k, v in save_model.items() if k in model_dict.keys()}
+            model_dict.update(state_dict)
+            self.backbone.load_state_dict(model_dict)
 
         # self.Translayer1_1 = nn.Sequential(BasicConv2d(64, channel, 3,padding=1),
         #                                    BasicConv2d(channel,channel,3,padding=1))
