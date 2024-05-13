@@ -72,7 +72,7 @@ val_loader = DataLoader(val_dataset, batch_size=int(config['batch_size_va']), sh
 
 # In[3]:
 model_name = 'LGANet'
-Net = LGANet(channel=32, n_classes=number_classes)
+Net = LGANet(channel=32, n_classes=number_classes, pretrain_model_path=config['pretrain_model_path'])
 
 Net = Net.to(device)
 optimizer = optim.Adam(Net.parameters(), lr=float(config['lr']))
