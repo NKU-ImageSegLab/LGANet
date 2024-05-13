@@ -87,7 +87,6 @@ metrics = get_binary_metrics()
 for ep in range(end_epoch):
     Net.train()
     epoch_loss = 0
-    metrics.reset()
     for itter, (img, msk, _) in tqdm(
             iterable=enumerate(train_loader),
             desc=f"{config['dataset_name']} Training [{ep + 1}/{end_epoch}]",
@@ -130,12 +129,12 @@ for ep in range(end_epoch):
     metrics_result = MetricsResult(metrics.compute())
     print(metrics_result.to_log('Train', ep, int(config['epochs']), epoch_loss / (itter + 1)))
     ## Validation phase
+    metrics.reset()
 
     with torch.no_grad():
         print('val_mode')
         val_loss = 0
         Net.eval()
-        metrics.reset()
         for itter, (img, msk, _) in tqdm(
             iterable=enumerate(val_loader),
             desc=f"{config['dataset_name']} Validation [{ep + 1}/{end_epoch}]",
@@ -146,12 +145,13 @@ for ep in range(end_epoch):
             msk = msk.to(device=device, dtype=mask_type)
             # msk_pred,side_out = Net(img)
             msk_pred, _, _, _ = Net(img)
-            vl_metrics.update(msk_pred, msk.int())
+            metrics.update(msk_pred, msk.int())
             # msk_pred = torch.sigmoid(msk_pred)
             loss = structure_loss(msk_pred, msk)
             val_loss += loss.item()
-        vl_metrics_result = MetricsResult(vl_metrics.compute())
+        vl_metrics_result = MetricsResult(metrics.compute())
         print(vl_metrics_result.to_log('Val', ep, int(config['epochs']), val_loss / (itter + 1)))
+        metrics.reset()
         mean_val_loss = (val_loss / (itter + 1))
         # Check the performance and save the model
         if (mean_val_loss) < best_val_loss:
