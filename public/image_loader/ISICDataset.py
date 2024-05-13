@@ -1,5 +1,5 @@
 import os
-import utils.transforms.two as my_transforms
+import public.transforms.two as my_transforms
 from .image_loader import ImageLoader
 
 

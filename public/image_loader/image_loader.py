@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-import utils.transforms.two as my_transforms
+import public.transforms.two as my_transforms
 
 
 def calculate_image(image_size, origin_image_size):

@@ -10,9 +10,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from utils.loader import *
+from public.loader import *
 # from utils.loader_TMUNet import *
-import utils.metrics as metrics
+import public.metrics as metrics
 from medpy.metric.binary import hd, dc, assd, jc,hd95
 import glob
 import numpy as np
