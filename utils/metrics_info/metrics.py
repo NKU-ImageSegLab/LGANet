@@ -24,7 +24,7 @@ class MetricsResult:
             self.AUROC = 0
             self.AveragePrecision = 0
 
-    def to_result_csv(self, path, model_name, flops = 0, params = 0):
+    def to_result_csv(self, path, model_name, flops=0, params=0):
         first_create = os.path.exists(path)
         with open(os.path.join(path), 'a', encoding='utf-8', newline='') as f:
             wr = csv.writer(f)
@@ -54,10 +54,13 @@ class MetricsResult:
                f'F1: {self.F1:.4f}, ' \
                f'DC: {self.Dice:.4f}, ' \
                f'MIOU: {self.JaccardIndex:.4f}'
+
     def cal_params_flops(self, model, size):
         input = torch.randn(1, 3, size, size).cuda()
         flops, params = profile(model, inputs=(input,))
         return params, flops
+
+
 def get_metrics(number_classes):
     metrics = torchmetrics.MetricCollection(
         [

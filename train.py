@@ -86,11 +86,11 @@ criteria = torch.nn.BCELoss()
 # criteria_region = torch.nn.MSELoss()
 
 end_epoch = int(config['epochs'])
-
+metrics = get_binary_metrics()
 for ep in range(end_epoch):
     Net.train()
     epoch_loss = 0
-    metrics = get_binary_metrics()
+    metrics.reset()
     for itter, (img, msk, _) in tqdm(
             iterable=enumerate(train_loader),
             desc=f"{config['dataset_name']} Training [{ep + 1}/{end_epoch}]",
@@ -133,11 +133,12 @@ for ep in range(end_epoch):
     metrics_result = MetricsResult(metrics.compute())
     print(metrics_result.to_log('Train', ep, int(config['epochs']), epoch_loss / (itter + 1)))
     ## Validation phase
+
     with torch.no_grad():
         print('val_mode')
         val_loss = 0
         Net.eval()
-        vl_metrics = get_binary_metrics()
+        metrics.reset()
         for itter, (img, msk, _) in tqdm(
             iterable=enumerate(val_loader),
             desc=f"{config['dataset_name']} Validation [{ep + 1}/{end_epoch}]",
@@ -164,8 +165,6 @@ for ep in range(end_epoch):
             save_best_loss_model_path = os.path.join(config['weight_path'], 'best_loss_weight_path')
             if not os.path.exists(save_best_loss_model_path):
                 os.makedirs(save_best_loss_model_path)
-
-            torch.save(state, os.path.join(save_best_loss_model_path, str(ep + 1) + '.model'))
             torch.save(state, os.path.join(save_best_loss_model_path, config['saved_model']))
 
     scheduler.step(mean_val_loss)
