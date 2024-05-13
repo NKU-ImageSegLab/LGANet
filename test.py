@@ -53,10 +53,7 @@ save_result_path = config['save_result']
 if not os.path.exists(save_result_path):
     os.makedirs(save_result_path)
 
-save_result_pred_path = config['save_result']
-if not os.path.exists(save_result_pred_path):
-    os.makedirs(save_result_pred_path)
-save_best_loss_model_path = os.path.join(config['weight_path'], 'best_loss_weight_path', config['saved_model'])
+save_best_loss_model_path = config['best_model_path']
 Net = LGANet()
 Net = Net.to(device)
 Net.load_state_dict(

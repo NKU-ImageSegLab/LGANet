@@ -75,9 +75,6 @@ model_name = 'LGANet'
 Net = LGANet(channel=32, n_classes=number_classes)
 
 Net = Net.to(device)
-if int(config['pretrained']):
-    Net.load_state_dict(torch.load(config['saved_model'], map_location='cpu')['model_weights'])
-    best_val_loss = torch.load(config['saved_model'], map_location='cpu')['val_loss']
 optimizer = optim.Adam(Net.parameters(), lr=float(config['lr']))
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=config['patience'])
 criteria = torch.nn.BCELoss()
@@ -162,10 +159,11 @@ for ep in range(end_epoch):
             best_val_loss = copy.deepcopy(mean_val_loss)
             state = copy.deepcopy({'model_weights': Net.state_dict(), 'val_loss': best_val_loss})
 
-            save_best_loss_model_path = os.path.join(config['weight_path'], 'best_loss_weight_path')
-            if not os.path.exists(save_best_loss_model_path):
-                os.makedirs(save_best_loss_model_path)
-            torch.save(state, os.path.join(save_best_loss_model_path, config['saved_model']))
+            save_best_loss_model_path = config['best_model_path']
+            save_best_loss_model_path_dir = os.path.dirname(save_best_loss_model_path)
+            if not os.path.exists(save_best_loss_model_path_dir):
+                os.makedirs(save_best_loss_model_path_dir)
+            torch.save(state, save_best_loss_model_path)
 
     scheduler.step(mean_val_loss)
 

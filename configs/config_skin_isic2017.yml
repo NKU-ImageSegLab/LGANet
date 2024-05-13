@@ -4,19 +4,12 @@ epochs:          100 # Number of epochs to train the model
 number_classes:  1 # Number of classes in the target dataset
 batch_size_tr:   16 # Batch size for train
 batch_size_va:   1 # Batch size for validationn 
-saved_model:     'weights_isic17.model'   # leave '' will use a default value
-test_model:      'best_dice_weight_path/best_dice.pth'
 patience:        10 # number of epochs without improvement to do before finishing training early.
-save_result:     './result/isic2017/' # path to save results
 progress_p:      0.1 # value between 0-1 shows the number of time we need to report training progress in each epoch
 pretrained:      0 # load the previously trained weight or no value should either 1 or 0
 is_test:        True     # isic2016没有验证集
-
-weight_path:    './weight/isic17/'
-
 # DataSet
-dataset_name: 'ISIC-2017'
-dataset_path: './Skin Dataset/ISIC-2017'
+dataset_name: 'ISIC2017'
 gt_format: '{}_segmentation.png'
 
 
@@ -35,3 +28,8 @@ normalize_stds:
 - 0.18653496
 - 0.17118206
 - 0.17080363
+
+best_model_path: './weight/isic17/best.pth'
+save_result:     './result/isic2017/image' # path to save results
+dataset_path: './Skin Dataset/ISIC-2017'
+weight_path:    './weight/isic17/'
