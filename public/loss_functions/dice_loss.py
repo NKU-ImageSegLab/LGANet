@@ -1,8 +1,8 @@
 import torch
-from utils.loss_functions.TopK_loss import TopKLoss
-from utils.loss_functions.crossentropy import RobustCrossEntropyLoss
-from utils.loss_functions.nd_softmax import softmax_helper
-from utils.loss_functions.tensor_utils import sum_tensor
+from public.loss_functions.TopK_loss import TopKLoss
+from public.loss_functions.crossentropy import RobustCrossEntropyLoss
+from public.loss_functions.nd_softmax import softmax_helper
+from public.loss_functions.tensor_utils import sum_tensor
 from torch import nn
 import numpy as np
 

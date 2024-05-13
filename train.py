@@ -9,14 +9,14 @@ from __future__ import division
 import argparse
 import os
 
-from utils.image_loader.ISICDataset import ISICDataset
-from utils.metrics_info.metrics import get_binary_metrics, MetricsResult
+from public.image_loader.ISICDataset import ISICDataset
+from public.metrics_info.metrics import get_binary_metrics, MetricsResult
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from utils.loader import *
+from public.loader import *
 import pandas as pd
 import glob
 import nibabel as nib

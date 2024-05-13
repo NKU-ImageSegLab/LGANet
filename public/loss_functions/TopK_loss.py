@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from utils.loss_functions.crossentropy import RobustCrossEntropyLoss
+from public.loss_functions.crossentropy import RobustCrossEntropyLoss
 
 class TopKLoss(RobustCrossEntropyLoss):
     """
