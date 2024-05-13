@@ -31,5 +31,5 @@ normalize_stds:
 
 best_model_path: './weight/isic17/best.pth'
 save_result:     './result/isic2017/image' # path to save results
-dataset_path: './Skin Dataset/ISIC-2017'
+dataset_path: '/autodl-fs/data/data_isic161718/isic2017/'
 weight_path:    './weight/isic17/'
