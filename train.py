@@ -82,8 +82,11 @@ criteria = torch.nn.BCELoss()
 # criteria_boundary  = torch.nn.BCELoss()
 # criteria_region = torch.nn.MSELoss()
 
+need_metrics_in_train = config['need_metrics_in_train']
+
 end_epoch = int(config['epochs'])
-metrics = get_binary_metrics()
+if need_metrics_in_train:
+    metrics = get_binary_metrics()
 for ep in range(end_epoch):
     Net.train()
     epoch_loss = 0
@@ -114,7 +117,8 @@ for ep in range(end_epoch):
         msk_pool4[msk_pool4 > 0] = 1
 
         msk_pred, s2, s3, s4 = Net(img)
-        metrics.update(msk_pred, msk.int())
+        if need_metrics_in_train:
+            metrics.update(msk_pred, msk.int())
         # msk_pred = torch.sigmoid(msk_pred)
         loss_seg = structure_loss(msk_pred, msk)
         loss_score2 = criteria(s2, msk_pool2)
@@ -129,7 +133,8 @@ for ep in range(end_epoch):
     metrics_result = MetricsResult(metrics.compute())
     print(metrics_result.to_log('Train', ep, int(config['epochs']), epoch_loss / (itter + 1)))
     ## Validation phase
-    metrics.reset()
+    if need_metrics_in_train:
+        metrics.reset()
 
     with torch.no_grad():
         print('val_mode')
@@ -145,13 +150,15 @@ for ep in range(end_epoch):
             msk = msk.to(device=device, dtype=mask_type)
             # msk_pred,side_out = Net(img)
             msk_pred, _, _, _ = Net(img)
-            metrics.update(msk_pred, msk.int())
+            if need_metrics_in_train:
+                metrics.update(msk_pred, msk.int())
             # msk_pred = torch.sigmoid(msk_pred)
             loss = structure_loss(msk_pred, msk)
             val_loss += loss.item()
         vl_metrics_result = MetricsResult(metrics.compute())
         print(vl_metrics_result.to_log('Val', ep, int(config['epochs']), val_loss / (itter + 1)))
-        metrics.reset()
+        if need_metrics_in_train:
+            metrics.reset()
         mean_val_loss = (val_loss / (itter + 1))
         # Check the performance and save the model
         if (mean_val_loss) < best_val_loss:
