@@ -10,14 +10,14 @@ import torch.nn.functional as F
 import numpy as np
 import os, argparse
 
-from utils.image_loader.ISICDataset import ISICDataset
-from utils.loader import *
+from public.image_loader.ISICDataset import ISICDataset
+from public.loader import *
 import yaml
 from PIL import Image
 import imageio
 from tqdm import tqdm
 from models.model import LGANet
-from utils.metrics_info.metrics import get_binary_metrics, MetricsResult
+from public.metrics_info.metrics import get_binary_metrics, MetricsResult
 
 os.environ['CUDA_DEVICE_ORDER'] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
