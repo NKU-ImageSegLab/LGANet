@@ -130,12 +130,12 @@ for ep in range(end_epoch):
         tloss.backward()
         optimizer.step()
         epoch_loss += loss_seg.item()
-    metrics_result = MetricsResult(metrics.compute())
-    print(metrics_result.to_log('Train', ep, int(config['epochs']), epoch_loss / (itter + 1)))
-    ## Validation phase
     if need_metrics_in_train:
+        metrics_result = MetricsResult(metrics.compute())
+        print(metrics_result.to_log('Train', ep, int(config['epochs']), epoch_loss / (itter + 1)))
         metrics.reset()
 
+    ## Validation phase
     with torch.no_grad():
         print('val_mode')
         val_loss = 0
@@ -155,9 +155,9 @@ for ep in range(end_epoch):
             # msk_pred = torch.sigmoid(msk_pred)
             loss = structure_loss(msk_pred, msk)
             val_loss += loss.item()
-        vl_metrics_result = MetricsResult(metrics.compute())
-        print(vl_metrics_result.to_log('Val', ep, int(config['epochs']), val_loss / (itter + 1)))
         if need_metrics_in_train:
+            vl_metrics_result = MetricsResult(metrics.compute())
+            print(vl_metrics_result.to_log('Val', ep, int(config['epochs']), val_loss / (itter + 1)))
             metrics.reset()
         mean_val_loss = (val_loss / (itter + 1))
         # Check the performance and save the model
