@@ -29,7 +29,7 @@ normalize_stds:
 - 0.17118206
 - 0.17080363
 
-best_model_path: './weight/isic16/best.pth'
-save_result:     './result/isic2016/image' # path to save results
-dataset_path: './Skin Dataset/ISIC-2016'
+best_model_path: '/gemini/output/model/best.pth'
+save_result:     '/gemini/output/image' # path to save results
+dataset_path: '/gemini/data-1/data_isic161718/isic2016/'
 weight_path:    './weight/isic16/'
